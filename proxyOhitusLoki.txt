@@ -1,0 +1,294 @@
+Microsoft Windows [Version 6.3.9600]
+(c) 2013 Microsoft Corporation. All rights reserved.
+
+C:\Users\asentaja>cd Downloads
+
+C:\Users\asentaja\Downloads>
+C:\Users\asentaja\Downloads>dir
+ Volume in drive C is OS
+ Volume Serial Number is 7A03-E5B7
+
+ Directory of C:\Users\asentaja\Downloads
+
+02.09.2014  11:32    <DIR>          .
+02.09.2014  11:32    <DIR>          ..
+02.09.2014  11:19           180 941 JavaScript-työSyksy2014.docx
+02.09.2014  11:32         6 103 040 node-v0.10.31-x64.msi
+               2 File(s)      6 283 981 bytes
+               2 Dir(s)  183 207 710 720 bytes free
+
+C:\Users\asentaja\Downloads>cd ..
+
+C:\Users\asentaja>mkdir MEAN_project
+
+C:\Users\asentaja>cd MEAN_project
+
+C:\Users\asentaja\MEAN_project>npm install mongojs
+'npm' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\asentaja\MEAN_project>C:\Program Files\nodejs\npm install mongojs
+'C:\Program' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\asentaja\MEAN_project>C:\"Program Files"\nodejs\npm install mongojs
+Error: ENOENT, stat 'C:\Users\asentaja\AppData\Roaming\npm'
+
+
+C:\Users\asentaja\MEAN_project>C:\"Program Files"\nodejs\npm install mongojs
+Error: ENOENT, stat 'C:\Users\asentaja\AppData\Roaming\npm'
+
+
+C:\Users\asentaja\MEAN_project>C:\"Program Files"\nodejs\npm install mongojs
+npm ERR! network connect ETIMEDOUT
+npm ERR! network This is most likely not a problem with npm itself
+npm ERR! network and is related to network connectivity.
+npm ERR! network In most cases you are behind a proxy or have bad network settin
+gs.
+npm ERR! network
+npm ERR! network If you are behind a proxy, please make sure that the
+npm ERR! network 'proxy' config is set properly.  See: 'npm help config'
+
+npm ERR! System Windows_NT 6.2.9200
+npm ERR! command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nod
+ejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "mongojs"
+npm ERR! cwd C:\Users\asentaja\MEAN_project
+npm ERR! node -v v0.10.31
+npm ERR! npm -v 1.4.23
+npm ERR! syscall connect
+npm ERR! code ETIMEDOUT
+npm ERR! errno ETIMEDOUT
+npm ERR!
+npm ERR! Additional logging details can be found in:
+npm ERR!     C:\Users\asentaja\MEAN_project\npm-debug.log
+npm ERR! not ok code 0
+
+C:\Users\asentaja\MEAN_project>C:\"Program Files"\nodejs\npm help
+
+Usage: npm <command>
+
+where <command> is one of:
+    add-user, adduser, apihelp, author, bin, bugs, c, cache,
+    completion, config, ddp, dedupe, deprecate, docs, edit,
+    explore, faq, find, find-dupes, get, help, help-search,
+    home, i, info, init, install, isntall, issues, la, link,
+    list, ll, ln, login, ls, outdated, owner, pack, prefix,
+    prune, publish, r, rb, rebuild, remove, repo, restart, rm,
+    root, run-script, s, se, search, set, show, shrinkwrap,
+    star, stars, start, stop, submodule, t, tag, test, tst, un,
+    uninstall, unlink, unpublish, unstar, up, update, v,
+    version, view, whoami
+
+npm <cmd> -h     quick help on <cmd>
+npm -l           display full usage info
+npm faq          commonly asked questions
+npm help <term>  search for help on <term>
+npm help npm     involved overview
+
+Specify configs in the ini-formatted file:
+    C:\Users\asentaja\.npmrc
+or on the command line via: npm <command> --key value
+Config info can be viewed via: npm help config
+
+npm@1.4.23 C:\Program Files\nodejs\node_modules\npm
+
+C:\Users\asentaja\MEAN_project>C:\"Program Files"\nodejs\npm install --proxy htt
+p://proxy.tamk.fi mongojs
+npm ERR! network tunneling socket could not be established, cause=connect ECONNR
+EFUSED
+npm ERR! network This is most likely not a problem with npm itself
+npm ERR! network and is related to network connectivity.
+npm ERR! network In most cases you are behind a proxy or have bad network settin
+gs.
+npm ERR! network
+npm ERR! network If you are behind a proxy, please make sure that the
+npm ERR! network 'proxy' config is set properly.  See: 'npm help config'
+
+npm ERR! System Windows_NT 6.2.9200
+npm ERR! command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nod
+ejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "--proxy" "http://proxy.tamk.
+fi" "mongojs"
+npm ERR! cwd C:\Users\asentaja\MEAN_project
+npm ERR! node -v v0.10.31
+npm ERR! npm -v 1.4.23
+npm ERR! code ECONNRESET
+npm ERR!
+npm ERR! Additional logging details can be found in:
+npm ERR!     C:\Users\asentaja\MEAN_project\npm-debug.log
+npm ERR! not ok code 0
+
+C:\Users\asentaja\MEAN_project>C:\"Program Files"\nodejs\npm install --proxy htt
+ps://proxy.tamk.fi mongojs
+npm ERR! network tunneling socket could not be established, cause=connect ECONNR
+EFUSED
+npm ERR! network This is most likely not a problem with npm itself
+npm ERR! network and is related to network connectivity.
+npm ERR! network In most cases you are behind a proxy or have bad network settin
+gs.
+npm ERR! network
+npm ERR! network If you are behind a proxy, please make sure that the
+npm ERR! network 'proxy' config is set properly.  See: 'npm help config'
+
+npm ERR! System Windows_NT 6.2.9200
+npm ERR! command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nod
+ejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "--proxy" "https://proxy.tamk
+.fi" "mongojs"
+npm ERR! cwd C:\Users\asentaja\MEAN_project
+npm ERR! node -v v0.10.31
+npm ERR! npm -v 1.4.23
+npm ERR! code ECONNRESET
+npm ERR!
+npm ERR! Additional logging details can be found in:
+npm ERR!     C:\Users\asentaja\MEAN_project\npm-debug.log
+npm ERR! not ok code 0
+
+C:\Users\asentaja\MEAN_project>C:\"Program Files"\nodejs\npm install --proxy pro
+xy.tamk.fi mongojs
+npm WARN invalid config proxy="proxy.tamk.fi"
+npm WARN invalid config Must be a full url with 'http://'
+^CTerminate batch job (Y/N)? C:\"Program Files"\nodejs\npm install --proxy http:
+//proxy.tamk.fi mongojs
+^C
+C:\Users\asentaja\MEAN_project>C:\"Program Files"\nodejs\npm install --proxy htt
+p://proxy.tamk.fi mongojs
+npm ERR! network tunneling socket could not be established, cause=connect ECONNR
+EFUSED
+npm ERR! network This is most likely not a problem with npm itself
+npm ERR! network and is related to network connectivity.
+npm ERR! network In most cases you are behind a proxy or have bad network settin
+gs.
+npm ERR! network
+npm ERR! network If you are behind a proxy, please make sure that the
+npm ERR! network 'proxy' config is set properly.  See: 'npm help config'
+
+npm ERR! System Windows_NT 6.2.9200
+npm ERR! command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nod
+ejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "--proxy" "http://proxy.tamk.
+fi" "mongojs"
+npm ERR! cwd C:\Users\asentaja\MEAN_project
+npm ERR! node -v v0.10.31
+npm ERR! npm -v 1.4.23
+npm ERR! code ECONNRESET
+npm ERR!
+npm ERR! Additional logging details can be found in:
+npm ERR!     C:\Users\asentaja\MEAN_project\npm-debug.log
+npm ERR! not ok code 0
+
+C:\Users\asentaja\MEAN_project>C:\"Program Files"\nodejs\npm install --proxy http://proxy.tamk.fi mongojs
+
+C:\Users\asentaja\MEAN_project>C:\"Program Files"\nodejs\npm config set strict-ssl false
+
+C:\Users\asentaja\MEAN_project>C:\"Program Files"\nodejs\npm config set registry "http://registry.npmjs.org/"
+
+C:\Users\asentaja\MEAN_project>C:\"Program Files"\nodejs\npm --proxy http://proxy.tamk.fi install mongojs
+npm ERR! Error: connect ECONNREFUSED
+npm ERR!     at errnoException (net.js:904:11)
+npm ERR!     at Object.afterConnect [as oncomplete] (net.js:895:19)
+npm ERR!  { [Error: connect ECONNREFUSED]
+npm ERR!   code: 'ECONNREFUSED',
+npm ERR!   errno: 'ECONNREFUSED',
+npm ERR!   syscall: 'connect' }
+npm ERR!
+npm ERR! If you are behind a proxy, please make sure that the
+npm ERR! 'proxy' config is set properly.  See: 'npm help config'
+
+npm ERR! System Windows_NT 6.2.9200
+npm ERR! command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js"
+ "--proxy" "http://proxy.tamk.fi" "install" "mongojs"
+npm ERR! cwd C:\Users\asentaja\MEAN_project
+npm ERR! node -v v0.10.31
+npm ERR! npm -v 1.4.23
+npm ERR! syscall connect
+npm ERR! code ECONNREFUSED
+npm ERR! errno ECONNREFUSED
+npm ERR! stack Error: connect ECONNREFUSED
+npm ERR! stack     at errnoException (net.js:904:11)
+npm ERR! stack     at Object.afterConnect [as oncomplete] (net.js:895:19)
+npm ERR!
+npm ERR! Additional logging details can be found in:
+npm ERR!     C:\Users\asentaja\MEAN_project\npm-debug.log
+npm ERR! not ok code 0
+
+C:\Users\asentaja\MEAN_project>C:\"Program Files"\nodejs\npm --proxy http://proxy.tamk.fi:80 install mongojs
+npm ERR! Error: connect ECONNREFUSED
+npm ERR!     at errnoException (net.js:904:11)
+npm ERR!     at Object.afterConnect [as oncomplete] (net.js:895:19)
+npm ERR!  { [Error: connect ECONNREFUSED]
+npm ERR!   code: 'ECONNREFUSED',
+npm ERR!   errno: 'ECONNREFUSED',
+npm ERR!   syscall: 'connect' }
+npm ERR!
+npm ERR! If you are behind a proxy, please make sure that the
+npm ERR! 'proxy' config is set properly.  See: 'npm help config'
+
+npm ERR! System Windows_NT 6.2.9200
+npm ERR! command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js"
+ "--proxy" "http://proxy.tamk.fi:80" "install" "mongojs"
+npm ERR! cwd C:\Users\asentaja\MEAN_project
+npm ERR! node -v v0.10.31
+npm ERR! npm -v 1.4.23
+npm ERR! syscall connect
+npm ERR! code ECONNREFUSED
+npm ERR! errno ECONNREFUSED
+npm ERR! stack Error: connect ECONNREFUSED
+npm ERR! stack     at errnoException (net.js:904:11)
+npm ERR! stack     at Object.afterConnect [as oncomplete] (net.js:895:19)
+npm ERR!
+npm ERR! Additional logging details can be found in:
+npm ERR!     C:\Users\asentaja\MEAN_project\npm-debug.log
+npm ERR! not ok code 0
+
+C:\Users\asentaja\MEAN_project>C:\"Program Files"\nodejs\npm set proxy http://proxy.tamk.fi
+
+C:\Users\asentaja\MEAN_project>C:\"Program Files"\nodejs\npm install mongojs
+npm ERR! Error: connect ECONNREFUSED
+npm ERR!     at errnoException (net.js:904:11)
+npm ERR!     at Object.afterConnect [as oncomplete] (net.js:895:19)
+npm ERR!  { [Error: connect ECONNREFUSED]
+npm ERR!   code: 'ECONNREFUSED',
+npm ERR!   errno: 'ECONNREFUSED',
+npm ERR!   syscall: 'connect' }
+npm ERR!
+npm ERR! If you are behind a proxy, please make sure that the
+npm ERR! 'proxy' config is set properly.  See: 'npm help config'
+
+npm ERR! System Windows_NT 6.2.9200
+npm ERR! command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js"
+ "install" "mongojs"
+npm ERR! cwd C:\Users\asentaja\MEAN_project
+npm ERR! node -v v0.10.31
+npm ERR! npm -v 1.4.23
+npm ERR! syscall connect
+npm ERR! code ECONNREFUSED
+npm ERR! errno ECONNREFUSED
+npm ERR! stack Error: connect ECONNREFUSED
+npm ERR! stack     at errnoException (net.js:904:11)
+npm ERR! stack     at Object.afterConnect [as oncomplete] (net.js:895:19)
+npm ERR!
+npm ERR! Additional logging details can be found in:
+npm ERR!     C:\Users\asentaja\MEAN_project\npm-debug.log
+npm ERR! not ok code 0
+
+C:\Users\asentaja\MEAN_project>C:\"Program Files"\nodejs\npm set proxy http://proxy.tamk.fi:8080
+
+C:\Users\asentaja\MEAN_project>C:\"Program Files"\nodejs\npm install mongojs
+|
+> kerberos@0.0.3 install C:\Users\asentaja\MEAN_project\node_modules\mongojs\node_modules\mongodb\node_modules\kerberos
+> (node-gyp rebuild 2> builderror.log) || (exit 0)
+
+
+C:\Users\asentaja\MEAN_project\node_modules\mongojs\node_modules\mongodb\node_modules\kerberos>node "C:\Program Files\no
+dejs\node_modules\npm\bin\node-gyp-bin\\..\..\node_modules\node-gyp\bin\node-gyp.js" rebuild
+
+> bson@0.2.12 install C:\Users\asentaja\MEAN_project\node_modules\mongojs\node_modules\mongodb\node_modules\bson
+> (node-gyp rebuild 2> builderror.log) || (exit 0)
+
+
+C:\Users\asentaja\MEAN_project\node_modules\mongojs\node_modules\mongodb\node_modules\bson>node "C:\Program Files\nodejs
+\node_modules\npm\bin\node-gyp-bin\\..\..\node_modules\node-gyp\bin\node-gyp.js" rebuild
+mongojs@0.14.1 node_modules\mongojs
+├── thunky@0.1.0
+├── readable-stream@1.1.13 (isarray@0.0.1, core-util-is@1.0.1, inherits@2.0.1, string_decoder@0.10.31)
+└── mongodb@1.4.9 (readable-stream@1.0.31, kerberos@0.0.3, bson@0.2.12)
+
+C:\Users\asentaja\MEAN_project>
