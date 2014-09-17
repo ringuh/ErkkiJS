@@ -1,0 +1,119 @@
+
+db.cities.insert({ a: "Helsinki",  lat: 60.198647, lng: 24.939270 })
+db.distances.insert({ a: "Helsinki", b: "Kotka", dist: 132 })
+db.distances.insert({ a: "Helsinki", b: "Lahti", dist: 105 })
+db.distances.insert({ a: "Helsinki", b: "Hämeenlinna", dist: 101 })
+db.distances.insert({ a: "Helsinki", b: "Salo", dist: 116 })
+
+db.cities.insert({ a: "Tampere",  lat: 61.491675, lng: 23.778839 })
+db.distances.insert({ a: "Tampere", b: "Hämeenlinna", dist: 78 })
+db.distances.insert({ a: "Tampere", b: "Pori", dist: 113 })
+db.distances.insert({ a: "Tampere", b: "Rauma", dist: 142 })
+db.distances.insert({ a: "Tampere", b: "Jyväskylä", dist: 149 })
+db.distances.insert({ a: "Tampere", b: "Seinäjoki", dist: 178 })
+
+db.cities.insert({ a: "Oulu",  lat: 65.010503, lng: 25.488586 })
+db.distances.insert({ a: "Oulu", b: "Kokkola", dist: 200 })
+db.distances.insert({ a: "Oulu", b: "Jyväskylä", dist: 340 })
+db.distances.insert({ a: "Oulu", b: "Kuopio", dist: 288 })
+db.distances.insert({ a: "Oulu", b: "Kajaani", dist: 183 })
+db.distances.insert({ a: "Oulu", b: "Rovaniemi", dist: 221 })
+db.distances.insert({ a: "Oulu", b: "Kuusamo", dist: 217 })
+
+
+db.cities.insert({ a: "Turku",  lat: 60.447500, lng: 22.259979 })
+db.distances.insert({ a: "Turku", b: "Tampere", dist: 163 })
+db.distances.insert({ a: "Turku", b: "Salo", dist: 58 })
+db.distances.insert({ a: "Turku", b: "Hämeenlinna", dist: 143 })
+db.distances.insert({ a: "Turku", b: "Rauma", dist: 91 })
+
+db.cities.insert({ a: "Jyväskylä",  lat: 62.238289, lng: 25.753632 })
+db.distances.insert({ a: "Jyväskylä", b: "Kuopio", dist: 147 })
+db.distances.insert({ a: "Jyväskylä", b: "Lahti", dist: 170 })
+db.distances.insert({ a: "Jyväskylä", b: "Mikkeli", dist: 116 })
+db.distances.insert({ a: "Jyväskylä", b: "Seinäjoki", dist: 192 })
+db.distances.insert({ a: "Jyväskylä", b: "Kokkola", dist: 242 })
+db.distances.insert({ a: "Jyväskylä", b: "Kajaani", dist: 315 })
+
+db.cities.insert({ a: "Kuopio",  lat: 62.886238, lng: 27.687225 })
+db.distances.insert({ a: "Kuopio", b: "Joensuu", dist: 137 })
+db.distances.insert({ a: "Kuopio", b: "Kokkola", dist: 315 })
+db.distances.insert({ a: "Kuopio", b: "Kajaani", dist: 170 })
+db.distances.insert({ a: "Kuopio", b: "Mikkeli", dist: 162 })
+db.distances.insert({ a: "Kuopio", b: "Savonlinna", dist: 160 })
+db.distances.insert({ a: "Kuopio", b: "Oulu", dist: 291 })
+
+db.cities.insert({ a: "Lahti",  lat: 60.979537, lng: 25.687714 })
+db.distances.insert({ a: "Lahti", b: "Kouvola", dist: 63 })
+db.distances.insert({ a: "Lahti", b: "Hämeenlinna", dist: 74 })
+db.distances.insert({ a: "Lahti", b: "Mikkeli", dist: 130 })
+
+db.cities.insert({ a: "Kouvola",  lat: 60.880116, lng: 26.706696 })
+db.distances.insert({ a: "Kouvola", b: "Mikkeli", dist: 106 })
+db.distances.insert({ a: "Kouvola", b: "Kotka", dist: 57 })
+db.distances.insert({ a: "Kouvola", b: "Lappeenranta", dist: 89 })
+
+db.cities.insert({ a: "Pori",  lat: 61.487087, lng: 21.773834 })
+db.distances.insert({ a: "Pori", b: "Helsinki", dist: 243 })
+db.distances.insert({ a: "Pori", b: "Hämeenlinna", dist: 186 })
+db.distances.insert({ a: "Pori", b: "Seinäjoki", dist: 187 })
+db.distances.insert({ a: "Pori", b: "Vaasa", dist: 191 })
+db.distances.insert({ a: "Pori", b: "Rauma", dist: 54 })
+
+
+db.cities.insert({ a: "Joensuu",  lat: 62.607024, lng: 29.782867 })
+db.distances.insert({ a: "Joensuu", b: "Savonlinna", dist: 133 })
+db.distances.insert({ a: "Joensuu", b: "Lappeenranta", dist: 239 })
+db.distances.insert({ a: "Joensuu", b: "Jyväskylä", dist: 251 })
+db.distances.insert({ a: "Joensuu", b: "Kajaani", dist: 234 })
+
+
+db.cities.insert({ a: "Lappeenranta",  lat: 61.051407, lng: 28.195343 })
+db.distances.insert({ a: "Lappeenranta", b: "Mikkeli", dist: 108 })
+db.distances.insert({ a: "Lappeenranta", b: "Kotka", dist: 112 })
+
+
+db.cities.insert({ a: "Hämeenlinna",  lat: 60.987531, lng: 24.481964 })
+db.distances.insert({ a: "Hämeenlinna", b: "Salo", dist: 114 })
+db.distances.insert({ a: "Hämeenlinna", b: "Rauma", dist: 185 })
+
+db.cities.insert({ a: "Vaasa",  lat: 63.093298, lng: 21.658478 })
+db.distances.insert({ a: "Vaasa", b: "Seinäjoki", dist: 78 })
+
+db.cities.insert({ a: "Rovaniemi",  lat: 66.494454, lng: 25.734406 })
+db.distances.insert({ a: "Rovaniemi", b: "Kuusamo", dist: 195 })
+db.distances.insert({ a: "Rovaniemi", b: "Ivalo", dist: 292 })
+
+db.cities.insert({ a: "Seinäjoki",  lat: 62.791576, lng: 22.842255 })
+db.distances.insert({ a: "Seinäjoki", b: "Kuopio", dist: 316 })
+
+db.cities.insert({ a: "Kotka",  lat: 60.464429, lng: 26.929169 })
+
+db.cities.insert({ a: "Mikkeli",  lat: 61.683751, lng: 27.269287 })
+db.distances.insert({ a: "Mikkeli", b: "Joensuu", dist: 211 })
+
+db.cities.insert({ a: "Salo",  lat: 60.380342, lng: 23.138428 })
+
+
+db.cities.insert({ a: "Kokkola",  lat: 63.834978, lng: 23.138428 })
+db.distances.insert({ a: "Kokkola", b: "Vaasa", dist: 123 })
+db.distances.insert({ a: "Kokkola", b: "Seinäjoki", dist: 145 })
+db.distances.insert({ a: "Kokkola", b: "Kajaani", dist: 247 })
+
+db.cities.insert({ a: "Kuusamo",  lat: 65.958881, lng: 29.190063 })
+db.distances.insert({ a: "Kuusamo", b: "Kajaani", dist: 247 })
+db.distances.insert({ a: "Kuusamo", b: "Ivalo", dist: 399 })
+
+db.cities.insert({ a: "Rauma",  lat: 61.130776, lng: 21.524658 })
+
+db.cities.insert({ a: "Kajaani",  lat: 64.226469, lng: 27.727051 })
+
+
+
+db.cities.insert({ a: "Savonlinna",  lat: 61.873099, lng: 28.920898 })
+
+
+db.cities.insert({ a: "Ivalo",  lat: 68.651144, lng: 27.548981 })
+
+
+
