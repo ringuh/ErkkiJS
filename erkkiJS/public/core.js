@@ -5,6 +5,11 @@ function mainController($scope, $http) {
 	var kohteet = {};
 	var etaisyydet = {};
 
+	var first = null;
+	var second = null;
+
+	
+
 	// when landing on the page, get all todos and show them
 	$http.get('/api/citys')
 		.success(function(data) {
@@ -12,46 +17,26 @@ function mainController($scope, $http) {
 			kohteet = data;
 			console.log(data);
 			lisaaKaupungit();
-		})
-		.error(function(data) {
-			console.log('Error: ' + data);
-		});
 
-	$http.get('/api/distances')
-		.success(function(data) {
-			console.log(JSON.stringify(data));
-			kasitteleEtaisyydet(data);
-			
-			
+			$http.get('/api/distances')
+			.success(function(data2) {
+				console.log(JSON.stringify(data2));
+				kasitteleEtaisyydet(data2);
+				
+				
+			})
+			.error(function(data) {
+				console.log('Error: ' + data2);
+			});
 		})
 		.error(function(data) {
 			console.log('Error: ' + data);
 		});
 
 	
-	// when submitting the add form, send the text to the node API
-	$scope.createTodo = function() {
-		$http.post('/api/citys', $scope.formData)
-			.success(function(data) {
-				$scope.formData = {}; // clear the form so our user is ready to enter another
-				$scope.todos = data;
-				console.log(data);
-			})
-			.error(function(data) {
-				console.log('Error: ' + data);
-			});
-	};
 
-	// delete a todo after checking it
-	$scope.deleteTodo = function(id) {
-		$http.delete('/api/citys/' + id)
-			.success(function(data) {
-				$scope.todos = data;
-			})
-			.error(function(data) {
-				console.log('Error: ' + data);
-			});
-	};
+	
+
 
 	var kasitteleEtaisyydet = function(data)
 	{
@@ -64,8 +49,9 @@ function mainController($scope, $http) {
 				etaisyydet[a] = {};
 			etaisyydet[a][b] = dist;
 		}
-
+		
 		console.log(JSON.stringify(etaisyydet));
+		dijkstraAlgoritmi("Helsinki", "Ivalo");
 	};
 
 	var map = L.map('map').setView([62.238289, 25.753632], 6);
@@ -75,42 +61,92 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-// add a marker in the given location, attach some popup content to it and open the popup
-/*
-L.marker([51.5, -0.09]).addTo(map)
-    .bindPopup('A pretty CSS3 popup. <br> Easily customizable.')
-    .openPopup();
- */   
+
 
  	function lisaaKaupungit()
  	{
  		for(var i in kohteet )
  		{
  			console.log(kohteet[i]);
+
  			L.marker(kohteet[i]).addTo(map)
  			.bindPopup(kohteet[i]["a"])
- 			.openPopup();
+ 			.openPopup()
+ 			.on('click', valitseKaupunki);
+ 			
+ 			
  		}
  		
  	};
 
- 	var dijkstraAlgoritmi = function(start, stop, path, matka)
+ 	var dijkstraAlgoritmi = function(start, stop)
  	{
+ 		
  		// lasketaan lyhin reitti JOKAISEEN pisteeseen
  		var shortest = 999999999999;
  		var mahdollisetKohteet = {};
 
- 		for( var i in etaisyydet) 
+ 		for( var i in etaisyydet) // haetaan kaikki mahdollisetKohteet[kaupunki]
  			if( i != start )
- 				mahdollisetKohteet.push(i); // haetaan listaan jokainen muu kaupunki kuin lähtökylä
+ 			{
+ 				console.log(i);
+ 				
+ 				mahdollisetKohteet[i] = {"polku":[], "distance": shortest}; // haetaan listaan jokainen muu kaupunki kuin lähtökylä
+ 			}
 
- 		for( var i in mahdollisetKohteet)
+ 		//haetaan lähtökylästä seuraavat kaupungit
+ 		for( var i in etaisyydet[start])
  		{
- 			
+ 			console.log(i + " "+etaisyydet[start][i]);	
  		}
+ 		console.log("START");
+ 		console.log(JSON.stringify(mahdollisetKohteet));
+ 	}
+
+ 	/*
+	DIJKSTRA NIINKUIN MINÄ SEN YMMÄRRÄN
+
+	hae taulukkoon kaikki mahdolliset kohteet
+	
+	valitse lähtöpiste ja loppupiste
+
+	hae lähtöpisteeseen yhteydessä olevat pisteet ja niiden etäisyydet
+
+	hae yhteydessä olevista pisteistä yhteydessä olevat pisteet ja niiden etäisyydet
+
+	hylkää pitkät reitit
+
+ 	*/
+
+ 	var checkCity = function(e)
+ 	{
+ 		
+ 		for( var i in kohteet )
+ 		{
+ 			if( kohteet[i]["lat"] == e.latlng.lat && kohteet[i]["lng"] == e.latlng.lng)
+ 				return kohteet[i]["a"];
+ 		}
+
+ 		return "ei_valittu";
+ 	}
+ 	var valitseKaupunki = function(e)
+ 	{
+ 		//console.log(e);
+ 		var valinta = checkCity(e);
+ 		if( first == null )
+ 			first = valinta;
+ 		else if( first == valinta )
+ 		{
+ 			first = null;
+ 			second = null;
+ 		}
+ 		else if( second == null )
+ 			second = valinta;
+ 		else if( second == valinta )
+ 			second = null;
+
+ 		
+
+ 		alert( first + " " + second);
  	}
 }
-/*
-
-lähtöpiste loppupiste
-käy läpi vaihtoehdot, tiedä aiemman solmun visited?
