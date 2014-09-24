@@ -47,7 +47,10 @@ function mainController($scope, $http) {
 			var dist = data[i]["dist"];
 			if( etaisyydet[a] == null)
 				etaisyydet[a] = {};
+			if( etaisyydet[b] == null)
+				etaisyydet[b] = {};
 			etaisyydet[a][b] = dist;
+			etaisyydet[b][a] = dist;
 		}
 		
 		console.log(JSON.stringify(etaisyydet));
@@ -79,31 +82,11 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
  		
  	};
 
- 	var dijkstraAlgoritmi = function(start, stop)
- 	{
- 		
- 		// lasketaan lyhin reitti JOKAISEEN pisteeseen
- 		var shortest = 999999999999;
- 		var mahdollisetKohteet = {};
-
- 		for( var i in etaisyydet) // haetaan kaikki mahdollisetKohteet[kaupunki]
- 			if( i != start )
- 			{
- 				console.log(i);
- 				
- 				mahdollisetKohteet[i] = {"polku":[], "distance": shortest}; // haetaan listaan jokainen muu kaupunki kuin lähtökylä
- 			}
-
- 		//haetaan lähtökylästä seuraavat kaupungit
- 		for( var i in etaisyydet[start])
- 		{
- 			console.log(i + " "+etaisyydet[start][i]);	
- 		}
- 		console.log("START");
- 		console.log(JSON.stringify(mahdollisetKohteet));
- 	}
 
  	/*
+ 	DJIKSTRA luokat
+
+
 	DIJKSTRA NIINKUIN MINÄ SEN YMMÄRRÄN
 
 	hae taulukkoon kaikki mahdolliset kohteet
@@ -117,9 +100,171 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 	hylkää pitkät reitit
 
  	*/
-
- 	var checkCity = function(e)
+ 	var dijkstraAlgoritmi = function(start, stop)
  	{
+ 		
+ 		// lasketaan lyhin reitti JOKAISEEN pisteeseen
+ 		
+ 		
+ 		var kaupungit = [];
+ 		var lasketut = 0;
+ 		var kohdeLista = [];
+
+ 		for( var i in etaisyydet) // haetaan kaikki mahdollisetKohteet[kaupunki]
+		{
+			if( i == start)
+				continue;
+
+			console.log(i+" "+JSON.stringify(etaisyydet[i]));
+			
+			
+			kaupungit.push( new Kaupunki(i, etaisyydet[i], start) );
+			
+		}
+
+ 		//haetaan lähtökylästä seuraavat kaupungit
+ 		for( var i in etaisyydet[start])
+ 		{
+ 			//console.log(i + " "+etaisyydet[start][i]);
+ 			for( var j in kaupungit)
+ 				if( kaupungit[j].Name() == i)
+ 				{
+ 					//console.log( "löydettiin "+kaupungit[j].Name());
+ 					kohdeLista.push(kaupungit[j]);
+
+ 				}
+ 				
+ 			
+ 		}
+ 		
+ 		
+ 		while( kohdeLista.length > 0 )
+ 		{
+ 			var tmpLista = [];
+ 			for( var i in kohdeLista)
+ 			{
+
+ 				var tmp = kohdeLista[i].checkPath(kaupungit);
+ 			}
+
+ 			kohdeLista = [];
+ 		}
+		
+		
+ 		console.log("START "+kohdeLista.length);
+ 		
+ 	}
+
+ 	//tarkastuslista -> käy läpi syöttäen aiempien laskujen pituudet -> palauta ne kohteet, joihin matka oli lyhyempi
+ 	
+
+
+
+ 	var Kaupunki = function(name, connections, start)
+ 	{
+ 		var self = this;
+ 		var nimi = name;
+ 		var yhteydet = connections;
+ 		var lyhinPathFromStart = [];
+ 		var lyhinMittaFromStart = 99999999999999;
+ 		var kaupunki_oliot = [];
+ 		this.laskettu = false;
+
+ 		console.log("luotiin " + nimi);
+
+ 		if( yhteydet[start] != null)
+ 		{
+
+ 			lyhinPathFromStart.push(start);
+ 			lyhinMittaFromStart = yhteydet[start];
+ 			console.log(nimi + " oli "+ start + " lähellä");
+ 		}
+
+
+ 		this.checkPath = function(towns)
+ 		{
+ 			// syötteenä kaikki kaupunkioliot. verrataan niitä tämän hetkiseen lyhimpään reittiin
+ 			if( kaupunki_oliot.length == 0) // otetaan ensin lähimpien kaupunkien oliot ylös. poislukien start
+	 			for( var i in connections)	 			
+	 				for(var j in towns)
+	 					if( towns[j].Name() == i && i != start)
+	 						kaupunki_oliot.push(towns[j]);
+	 		
+	 		console.log("ko length "+kaupunki_oliot.length);	
+	 		for( var k in kaupunki_oliot)
+	 			kaupunki_oliot[k].calcPath(self);
+	 		
+	 		
+ 		};
+
+ 		this.Name = function()
+ 		{
+ 			//console.log("kysyttiin nimi " + nimi);
+ 			return nimi;
+ 		};
+ 		this.getPath = function()
+ 		{
+ 			console.log(lyhinPathFromStart.length);
+ 			var tmp = [];
+ 			tmp = lyhinPathFromStart;
+ 			tmp.push(nimi);
+ 			return tmp;
+ 		};
+
+ 		this.getPathLength = function()
+ 		{
+ 			return lyhinMittaFromStart;
+ 		};
+
+ 		this.calcPath = function(town)
+ 		{
+ 			// syötteenä tulee kaupunki
+ 			/*	kaupungilta kysytään sen tämän hetkinen lyhin reitti ja etäisyys
+				palautetaan true if lyhyempi kuin aiempi reitti
+ 			 */
+ 			if( lyhinPathFromStart.length == 0)
+ 			{
+ 				lyhinPathFromStart = town.getPath();
+
+ 				
+ 			}
+ 			else
+ 				console.log("Path ei ollut tyhjä");
+
+
+ 			console.log("Calcpath at "+nimi+" - syöte tulee from "+town.Name());
+ 			console.log(JSON.stringify(lyhinPathFromStart));
+
+ 		};
+ 	};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 	 	var checkCity = function(e)
+ 	{ // tarkistaa mitä kaupunkia klikattiin
  		
  		for( var i in kohteet )
  		{
@@ -130,7 +275,7 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
  		return "ei_valittu";
  	}
  	var valitseKaupunki = function(e)
- 	{
+ 	{ // hoitaa kaupunkien clickaukset
  		//console.log(e);
  		var valinta = checkCity(e);
  		if( first == null )
