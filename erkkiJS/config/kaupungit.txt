@@ -54,7 +54,6 @@ db.distances.insert({ a: "Kouvola", b: "Kotka", dist: 57 })
 db.distances.insert({ a: "Kouvola", b: "Lappeenranta", dist: 89 })
 
 db.cities.insert({ a: "Pori",  lat: 61.487087, lng: 21.773834 })
-db.distances.insert({ a: "Pori", b: "Helsinki", dist: 243 })
 db.distances.insert({ a: "Pori", b: "Hämeenlinna", dist: 186 })
 db.distances.insert({ a: "Pori", b: "Seinäjoki", dist: 187 })
 db.distances.insert({ a: "Pori", b: "Vaasa", dist: 191 })
@@ -111,6 +110,8 @@ db.cities.insert({ a: "Kajaani",  lat: 64.226469, lng: 27.727051 })
 
 
 db.cities.insert({ a: "Savonlinna",  lat: 61.873099, lng: 28.920898 })
+db.distances.insert({ a: "Savonlinna", b: "Mikkeli", dist: 103 })
+db.distances.insert({ a: "Savonlinna", b: "Lappeenranta", dist: 156 })
 
 
 db.cities.insert({ a: "Ivalo",  lat: 68.651144, lng: 27.548981 })

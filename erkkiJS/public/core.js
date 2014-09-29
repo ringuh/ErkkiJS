@@ -7,6 +7,7 @@ function mainController($scope, $http) {
 
 	var first = null;
 	var second = null;
+	var polyline;
 
 	
 
@@ -20,7 +21,7 @@ function mainController($scope, $http) {
 
 			$http.get('/api/distances')
 			.success(function(data2) {
-				console.log(JSON.stringify(data2));
+				//console.log(JSON.stringify(data2));
 				kasitteleEtaisyydet(data2);
 				
 				
@@ -53,8 +54,8 @@ function mainController($scope, $http) {
 			etaisyydet[b][a] = dist;
 		}
 		
-		console.log(JSON.stringify(etaisyydet));
-		dijkstraAlgoritmi("Helsinki", "Ivalo");
+		//console.log(JSON.stringify(etaisyydet));
+		
 	};
 
 	var map = L.map('map').setView([62.238289, 25.753632], 6);
@@ -109,17 +110,20 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
  		var kaupungit = [];
  		var lasketut = 0;
  		var kohdeLista = [];
+ 		var end = null;
 
  		for( var i in etaisyydet) // haetaan kaikki mahdollisetKohteet[kaupunki]
 		{
 			if( i == start)
 				continue;
 
-			console.log(i+" "+JSON.stringify(etaisyydet[i]));
+			//console.log(i+" "+JSON.stringify(etaisyydet[i]));
 			
+			var tmp = new Kaupunki(i, etaisyydet[i], start);
+			kaupungit.push( tmp );
 			
-			kaupungit.push( new Kaupunki(i, etaisyydet[i], start) );
-			
+			if( i == stop)
+				end = tmp;
 		}
 
  		//haetaan lähtökylästä seuraavat kaupungit
@@ -140,18 +144,31 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
  		
  		while( kohdeLista.length > 0 )
  		{
+ 			console.log("!"+JSON.stringify(kohdeLista));
  			var tmpLista = [];
  			for( var i in kohdeLista)
  			{
-
  				var tmp = kohdeLista[i].checkPath(kaupungit);
+ 				
+ 				for( var j in tmp)
+ 					tmpLista.push(tmp[j]);
+ 				
  			}
 
- 			kohdeLista = [];
+ 			kohdeLista = tmpLista;
  		}
 		
 		
- 		console.log("START "+kohdeLista.length);
+ 		console.log("finish "+ end.Name());
+ 		console.log(JSON.stringify(end.getPath()));
+ 		try{
+
+ 			$scope.dist = end.getPathLength();
+ 			$scope.$digest();
+ 		}
+ 		catch(e)
+ 		{}
+ 		drawPoly(end.getPath());
  		
  	}
 
@@ -168,9 +185,10 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
  		var lyhinPathFromStart = [];
  		var lyhinMittaFromStart = 99999999999999;
  		var kaupunki_oliot = [];
+ 		this.nn = nimi;
  		this.laskettu = false;
 
- 		console.log("luotiin " + nimi);
+ 		//console.log("luotiin " + nimi);
 
  		if( yhteydet[start] != null)
  		{
@@ -189,11 +207,20 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 	 				for(var j in towns)
 	 					if( towns[j].Name() == i && i != start)
 	 						kaupunki_oliot.push(towns[j]);
-	 		
-	 		console.log("ko length "+kaupunki_oliot.length);	
+	 		if( nimi == "Seinäjoki" || nimi == "Helsinki")
+	 			console.log(nimi + " viereiset kaupungit "+ JSON.stringify(kaupunki_oliot));	
+	 		var ret = [];
 	 		for( var k in kaupunki_oliot)
-	 			kaupunki_oliot[k].calcPath(self);
+	 		{	// käydään läpi lähimmät kaupungit ja verrataan oliko nykyinen reitti lyhyempi
+	 			// palautetaan ne kaupungit joiden reitti uudistui
+	 			var tmp = kaupunki_oliot[k].calcPath(self);
+	 			if( tmp )
+	 				ret.push(kaupunki_oliot[k]);
+
+
+	 		}
 	 		
+	 		return ret;
 	 		
  		};
 
@@ -204,9 +231,11 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
  		};
  		this.getPath = function()
  		{
- 			console.log(lyhinPathFromStart.length);
+ 			// hakee tämänhetkisen lyhimmän reitin lähtöpisteestä kyseessä olevaan pisteeseen, lisäten viimeiseksi kyseisen pisteen nimen
  			var tmp = [];
- 			tmp = lyhinPathFromStart;
+ 			for( var i in lyhinPathFromStart)
+ 				tmp.push(lyhinPathFromStart[i]);
+ 			
  			tmp.push(nimi);
  			return tmp;
  		};
@@ -224,42 +253,66 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
  			 */
  			if( lyhinPathFromStart.length == 0)
  			{
+ 				//console.log("lyhin nolla "+nimi);
  				lyhinPathFromStart = town.getPath();
 
- 				
+ 				return true;
  			}
  			else
- 				console.log("Path ei ollut tyhjä");
+ 			{
+ 				//console.log("Path from "+town.Name()+" to "+ nimi+" ei ollut tyhjä -- lasketaan reitin pituus");
+
+ 				var currentShortest = 0;
+ 				var vertailumitta = 0;
+ 				for( var i = 0; i < lyhinPathFromStart.length; ++i) // haetaan nykyisen reitin pituus
+ 				{
+ 					var a = lyhinPathFromStart[i];
+ 					if( i < lyhinPathFromStart.length-1)
+ 					{ 	
+ 						var b = lyhinPathFromStart[i+1];				 					
+ 						//console.log(JSON.stringify(etaisyydet[a][b]));
+ 						currentShortest += parseInt(etaisyydet[a][b]);
+ 					}
+ 					else
+ 						currentShortest += parseInt(etaisyydet[a][self.nn]);
+ 				}
+ 				//console.log(currentShortest);
+
+ 				// haetaan vaihtoehtoisen reitin pituus
+ 				var altPath = town.getPath();
+ 				for( var i = 0; i < altPath.length; ++i) // haetaan nykyisen reitin pituus
+ 				{
+ 					var a = altPath[i];
+ 					if( i < altPath.length-1)
+ 					{ 	
+ 						var b = altPath[i+1];				 					
+ 						//console.log(JSON.stringify(etaisyydet[a][b]));
+ 						vertailumitta += parseInt(etaisyydet[a][b]);
+ 					}
+ 					else
+ 						vertailumitta += parseInt(etaisyydet[a][self.nn]);
+ 				}
+ 				
+ 				if( currentShortest > vertailumitta )
+ 				{
+ 					lyhinPathFromStart = altPath;
+ 					lyhinMittaFromStart = vertailumitta;
+ 					console.log( vertailumitta + " < "+currentShortest + " from " + town.Name() + " to "+this.nn);
+
+ 					return true;
+ 				}
+ 				else if (lyhinMittaFromStart = 99999999999999) {
+ 					lyhinMittaFromStart = currentShortest;
+ 				}
+ 				return false;
+ 			}
 
 
- 			console.log("Calcpath at "+nimi+" - syöte tulee from "+town.Name());
- 			console.log(JSON.stringify(lyhinPathFromStart));
+ 			//console.log("Calcpath at "+nimi+" - syöte tulee from "+town.Name());
+ 			//console.log(JSON.stringify(lyhinPathFromStart));
 
  		};
  	};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -289,9 +342,48 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
  			second = valinta;
  		else if( second == valinta )
  			second = null;
-
+ 		else
+ 		{
+ 			first = valinta;
+ 			second = null;
+ 		}
  		
+ 		try{
+	 		$scope.start = first;
+	 		$scope.stop = second;
+	 		$scope.$digest();
+	 	}
+	 	catch(e)
+	 	{
+	 		console.log("digest too soon");
+	 	}
 
- 		alert( first + " " + second);
+ 		if( first != null && second != null )
+ 			dijkstraAlgoritmi(first, second);
+ 		console.log( first + " to " + second);
+ 	}
+
+ 	var drawPoly = function(arr)
+ 	{
+ 		console.log("piirrä "+JSON.stringify(arr));
+ 		try
+ 		{
+ 			map.removeLayer(polyline);
+ 		}
+ 		catch(e)
+ 		{
+
+ 		}
+ 		var pisteet = [];
+ 		for( var i in arr)
+ 		{
+ 			console.log( arr[i] );
+ 			for( var j in kohteet )
+ 				if( kohteet[j]["a"] == arr[i])
+ 					pisteet.push(kohteet[j]);
+ 		}
+ 		//console.log(JSON.stringify(kohteet) );
+
+ 		polyline = L.polyline(pisteet, {color: 'red'}).addTo(map);
  	}
 }
