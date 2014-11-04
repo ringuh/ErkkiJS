@@ -11,13 +11,15 @@ function mainController($scope, $http) {
 
 	
 
-	// when landing on the page, get all todos and show them
+	/* haetaan sivun ladattaessa AJAX-kutsulla tietokannasta kaupungit 
+		ja niiden etäisyydet
+	*/
 	$http.get('/api/citys')
-		.success(function(data) {
+		.success(function(data) { // mikäli kaupungit löytyivät kannasta jatketaan
 			$scope.todos = data;
 			kohteet = data;
 			console.log(data);
-			lisaaKaupungit();
+			lisaaKaupungit(); // lisätään kaupungit kartalle
 
 			$http.get('/api/distances')
 			.success(function(data2) {
@@ -38,7 +40,12 @@ function mainController($scope, $http) {
 
 	
 
+	/*
+		Käsitellään saadut etäisyydet.
+		Etäisyydet-taulukkoon lisätään jokainen kaupunki ja niiden avaimiksi
+		kyseiseen kaupunkiin yhteydessä olevat kaupungit sekä niiden arvo
 
+		{"Helsinki":{"Kotka":132,"Lahti":105,"Hämeenlinna":101,"Salo":116} } yms*/
 	var kasitteleEtaisyydet = function(data)
 	{
 		for( var i in data )
@@ -58,25 +65,26 @@ function mainController($scope, $http) {
 		
 	};
 
-	var map = L.map('map').setView([62.238289, 25.753632], 6);
+	var map = L.map('map').setView([62.238289, 25.753632], 6); // alustetaan kartta
 
-// add an OpenStreetMap tile layer
+// karttaan karttatiilit
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
+}).addTo(map); 
 
 
-
+	// lisää kaupungin tietokannasta saatuihin kordinaatteihin
  	function lisaaKaupungit()
  	{
  		for(var i in kohteet )
  		{
- 			console.log(kohteet[i]);
+ 			//console.log(kohteet[i]);
 
  			L.marker(kohteet[i]).addTo(map)
  			.bindPopup(kohteet[i]["a"])
  			.openPopup()
- 			.on('click', valitseKaupunki);
+ 			.on('click', valitseKaupunki); 
+ 			// kaupunkia clickaamalla näkyy kaupungin nimi
  			
  			
  		}
@@ -142,12 +150,16 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
  		}
  		
  		
- 		while( kohdeLista.length > 0 )
+ 		while( kohdeLista.length > 0 ) 
+ 		// käydään djikstraa läpi, kunnes uusia kohteita ei enää ole
  		{
  			console.log("!"+JSON.stringify(kohdeLista));
  			var tmpLista = [];
+ 			// kohdelistan kaikki kaupungit käydään läpi
  			for( var i in kohdeLista)
  			{
+ 				// mikäli kyseisestä kaupungista löytyy lyhyempi reitti johonkin sen tuntemaan pisteeseen
+ 				// palautetaan kyseinen kaupunki
  				var tmp = kohdeLista[i].checkPath(kaupungit);
  				
  				for( var j in tmp)
@@ -155,20 +167,20 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
  				
  			}
 
- 			kohdeLista = tmpLista;
+ 			kohdeLista = tmpLista; // tehdään tmp listasta uusi kohdelista
  		}
 		
 		
  		console.log("finish "+ end.Name());
  		console.log(JSON.stringify(end.getPath()));
  		try{
-
+ 			// yritetään päivittää ruudulle uusi etäisyys
  			$scope.dist = end.getPathLength();
  			$scope.$digest();
  		}
  		catch(e)
  		{}
- 		drawPoly(end.getPath());
+ 		drawPoly(end.getPath()); // piirretään reitti pisteiden välille
  		
  	}
 
@@ -176,9 +188,9 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
  	
 
 
-
+ 	// kaupunkiluokka pituuksien ylläpitoon
  	var Kaupunki = function(name, connections, start)
- 	{
+ 	{	
  		var self = this;
  		var nimi = name;
  		var yhteydet = connections;
@@ -192,7 +204,7 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 
  		if( yhteydet[start] != null)
  		{
-
+ 			// tunnistetaan kaupungin olevan alkupiste
  			lyhinPathFromStart.push(start);
  			lyhinMittaFromStart = yhteydet[start];
  			console.log(nimi + " oli "+ start + " lähellä");
@@ -316,7 +328,7 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 
 
 
- 	 	var checkCity = function(e)
+ 	var checkCity = function(e)
  	{ // tarkistaa mitä kaupunkia klikattiin
  		
  		for( var i in kohteet )
@@ -331,43 +343,44 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
  	{ // hoitaa kaupunkien clickaukset
  		//console.log(e);
  		var valinta = checkCity(e);
- 		if( first == null )
+ 		if( first == null ) // alkupisteen valinta
  			first = valinta;
- 		else if( first == valinta )
+ 		else if( first == valinta ) // painettiin samaa lähtöpistettä uudestaan->reset
  		{
  			first = null;
  			second = null;
  		}
- 		else if( second == null )
+ 		else if( second == null ) // loppupisteen valinta
  			second = valinta;
- 		else if( second == valinta )
+ 		else if( second == valinta ) // loppupisteen reset
  			second = null;
- 		else
+ 		else // muuten oletetaan, että painettiin alkupistettä
  		{
  			first = valinta;
  			second = null;
  		}
  		
- 		try{
+ 		try{ // piirretään näytölle alku ja loppupisteet
 	 		$scope.start = first;
 	 		$scope.stop = second;
-	 		$scope.$digest();
+	 		$scope.$digest(); // pakotetaan angular scopen päivitys ruudulle
 	 	}
 	 	catch(e)
 	 	{
 	 		console.log("digest too soon");
 	 	}
 
- 		if( first != null && second != null )
- 			dijkstraAlgoritmi(first, second);
+ 		if( first != null && second != null ) // mikäli alku ja loppupiste tiedossa
+ 			dijkstraAlgoritmi(first, second); // lasketaan reitti
  		console.log( first + " to " + second);
  	}
 
  	var drawPoly = function(arr)
  	{
- 		console.log("piirrä "+JSON.stringify(arr));
+ 		// piirtää viivan reittipisteiden välille
+ 		//console.log("piirrä "+JSON.stringify(arr));
  		try
- 		{
+ 		{	// poistetaan edellinen viiva
  			map.removeLayer(polyline);
  		}
  		catch(e)
@@ -375,7 +388,7 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 
  		}
  		var pisteet = [];
- 		for( var i in arr)
+ 		for( var i in arr) // otetaan uudet reittipisteet
  		{
  			console.log( arr[i] );
  			for( var j in kohteet )
@@ -384,6 +397,8 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
  		}
  		//console.log(JSON.stringify(kohteet) );
 
+ 		// piirretään viiva
  		polyline = L.polyline(pisteet, {color: 'red'}).addTo(map);
+
  	}
 }
