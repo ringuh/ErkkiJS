@@ -1,0 +1,86 @@
+suunnitteluratkaisut
+
+Ohjelma on hyvin yksinkertainen single-page applikaatio, jonka pohjalla on MEAN-pino.
+Node ajaa server.js-tiedoston, johon määritelty:
+Mongooselle on osoite MangoDB kantaan. Mongoosen tietuemodelit kaupungeille(todo.js) ja etäisyyksille(distance.js) on määritelty Models kansiossa. Routes.js tiedoston perusteella päätellään kumpaa modelia käyttävä vastaus tietokannasta saapuu.
+Expressille kansio (/public), josta varsinainen applikaatio suoritetaan.
+
+Applikaatio muodostuu index.html-näkymästä ja core.js-kontrollerista ( angular ). Sen kummempaa kansiojakoa ei ole tehty, koska ohjelma on niin pieni. MEAN pinoon kuuluva AngularJS on kyseisen applikaation toiminnan kannalta täysin merkityksetöntä, sillä todellisuudessa ainut kirjasto, jota ohjelman toteutukseen tarvittiin on LeafletJS-kirjasto kartan piirtämiseen.
+
+Ohjelma on suunniteltu toimimaan niin, että sivun ladattaessa tehdään MongoDB palvelimelle AJAX-kutsu kaupungeista ja näiden lähimmistä pisteistä.
+
+Saadut kaupungit piirretään LeafletJSllä näkyviin.
+
+Kartalla näkyviä kaupunkeja clickaamalla kutsutaan funktiota valitseKaupunki, joka päättelee onko hyväksytysti määritelty alku- ja loppupiste.
+
+Alku- ja loppupisteen ollessa tiedossa valitseKaupunki kutsuu funktiota dijkstraAlgoritmi.
+Tämä luo kaikista kartan pisteistä Kaupunki-oliot, jotka tietävät lähimmät kaupunkinsa etäisyyksineen. 
+dijkstraAlgoritmi käy läpi kaupunkeja alkupisteestä eteenpäin ja laskee jokaiselle kaupungille lyhintä reittiä alkupisteestä. Mikäli jollekkin kaupungille löydettiin lyhyempi reitti kuin aiemmin, se palautetaan dijkstraAlgoritmille uudestaan läpikäytäväksi.
+funktio käy kaupunkeja läpi niin pitkään kuin kohdelistasta löytyy kohteita.
+
+
+funktion suoritettua itsensä määränpääkaupunki tietää lyhimmän reittinsä ja sen kordinaattipisteet lähetetään drawPoly-funktiolle, joka piirtää kartalle kyseisen reitin.
+ruudulle piirretään angularia käyttäen tiedot alku- ja loppupisteestä sekä reitin pituus.
+
+
+
+funktiot ja luokat: 
+tarkemmin lähdekoodissa core.js tiedostossa
+
+ajaxkutsut
+	hakee kannasta kaupungit ja etäisyydet
+
+kasitteleEtaisyydet(array)
+	Käsitellään saadut etäisyydet.
+	Etäisyydet-taulukkoon lisätään jokainen kaupunki ja niiden avaimiksi
+	kyseiseen kaupunkiin yhteydessä olevat kaupungit sekä niiden arvo
+
+	{"Helsinki":{"Kotka":132,"Lahti":105,"Hämeenlinna":101,"Salo":116} } yms
+
+
+lisaaKaupungit()
+	lisää kaupungin tietokannasta saatuihin kordinaatteihin kartalle
+
+dijkstraAlgoritmi( lähtökaupunki, määränpää )
+	lasketaan lyhin reitti JOKAISEEN pisteeseen
+	ja lopulta piirrä reitti lähtöpisteen ja loppupisteen välille
+
+checkCity(leaflet_objecti)
+	selvittää objektista minkä niminen kaupunki on kyseessä
+
+valitseKaupunki(leaflet_objecti)
+	kutsutaan kun karttapistettä klikataan. selvittää tiedetäänkö alku ja loppupiste
+
+drawPoly(arr)
+	piirtää reitin
+
+luokka Kaupunki(nimi, lähimmät_kaupungit, djikstranAlkupiste )
+	luokka kaupunkien tietojen ylläpitoon ja etäisyyslaskuihin
+	-> checkPath(kaupungit)
+		yleinen apufunktio voisi olla myös funktio. käy läpi kaikki kaupungit ja tarkistaa niiden lähimmät reitit.
+
+	-> getPath()
+		hakee tämänhetkisen lyhimmän reitin lähtöpisteestä kyseessä olevaan pisteeseen, lisäten viimeiseksi kyseisen pisteen nimen
+ 		
+	-> Name()
+		palauttaa kaupungin nimen
+
+	-> getPathLength()
+		palauttaa nykyisen reitin pituuden (laskettu alkupisteestä)
+
+	-> calcPath(town)
+		syötteenä tulee kaupunki
+ 		kaupungilta kysytään sen tämän hetkinen lyhin reitti ja etäisyys
+		palautetaan true if lyhyempi kuin aiempi reitti
+ 		
+	
+
+
+
+
+
+
+
+
+
+
