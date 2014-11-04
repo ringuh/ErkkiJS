@@ -219,8 +219,8 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 	 				for(var j in towns)
 	 					if( towns[j].Name() == i && i != start)
 	 						kaupunki_oliot.push(towns[j]);
-	 		if( nimi == "Seinäjoki" || nimi == "Helsinki")
-	 			console.log(nimi + " viereiset kaupungit "+ JSON.stringify(kaupunki_oliot));	
+	 		//if( nimi == "Seinäjoki" || nimi == "Helsinki")
+	 		//	console.log(nimi + " viereiset kaupungit "+ JSON.stringify(kaupunki_oliot));	
 	 		var ret = [];
 	 		for( var k in kaupunki_oliot)
 	 		{	// käydään läpi lähimmät kaupungit ja verrataan oliko nykyinen reitti lyhyempi
